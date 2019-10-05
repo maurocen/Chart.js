@@ -194,12 +194,20 @@ function getTextAlignForAngle(angle) {
 	return 'right';
 }
 
-function fillText(ctx, text, position, lineHeight) {
+function fillText(ctx, text, position, lineHeight, colors) {
 	var y = position.y + lineHeight / 2;
 	var i, ilen;
 
 	if (helpers.isArray(text)) {
 		for (i = 0, ilen = text.length; i < ilen; ++i) {
+			if (colors && Array.isArray(colors)) {
+				if (colors[i]) {
+					ctx.fillStyle = colors[i];
+				} else {
+					ctx.fillStyle = colors[0];
+				}
+			}
+
 			ctx.fillText(text[i], position.x, y);
 			y += lineHeight;
 		}
@@ -242,7 +250,7 @@ function drawPointLabels(scale) {
 		var angle = helpers.toDegrees(angleRadians);
 		ctx.textAlign = getTextAlignForAngle(angle);
 		adjustPointPositionForLabelHeight(angle, scale._pointLabelSizes[i], pointLabelPosition);
-		fillText(ctx, scale.pointLabels[i], pointLabelPosition, plFont.lineHeight);
+		fillText(ctx, scale.pointLabels[i], pointLabelPosition, plFont.lineHeight, pointLabelOpts.fontColor);
 	}
 	ctx.restore();
 }

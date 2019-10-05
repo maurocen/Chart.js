@@ -1181,6 +1181,10 @@ var Scale = Element.extend({
 			if (isArray(label)) {
 				for (j = 0, jlen = label.length; j < jlen; ++j) {
 					// We just make sure the multiline element is a string here..
+					if (helpers.isArray(tickFont.color)) {
+						context.fillStyle = tickFont.color[j] ? tickFont.color[j] : tickFont.color[0];
+					}
+
 					ctx.fillText('' + label[j], 0, y);
 					y += tickFont.lineHeight;
 				}
